@@ -312,18 +312,18 @@ func main() {
 
 	apiKey := os.Getenv("APPTHWACK_API_KEY")
 	if apiKey == "" {
-		errorMessageToOutput("$APPTHWACK_API_KEY is not provided!")
+		fmt.Println("$APPTHWACK_API_KEY is not provided!")
 		os.Exit(1)
 	}
 
 	projectName := os.Getenv("APPTHWACK_PROJECT_NAME")
 	devicePoolName := os.Getenv("APPTHWACK_DEVICE_POOL_NAME")
 	if projectName == "" {
-		errorMessageToOutput("$APPTHWACK_PROJECT_NAME is not provided!")
+		fmt.Println("$APPTHWACK_PROJECT_NAME is not provided!")
 		os.Exit(1)
 	}
 	if devicePoolName == "" {
-		errorMessageToOutput("$APPTHWACK_DEVICE_POOL_NAME is not provided!")
+		fmt.Println("$APPTHWACK_DEVICE_POOL_NAME is not provided!")
 		os.Exit(1)
 	}
 
@@ -332,28 +332,28 @@ func main() {
 	uploadSave := os.Getenv("APPTHWACK_UPLOAD_SAVE")
 	uploadType := os.Getenv("APPTHWACK_UPLOAD_TYPE")
 	if uploadName == "" {
-		errorMessageToOutput("$APPTHWACK_UPLOAD_NAME is not provided!")
+		fmt.Println("$APPTHWACK_UPLOAD_NAME is not provided!")
 		os.Exit(1)
 	}
 	if uploadFile == "" {
-		errorMessageToOutput("$APPTHWACK_UPLOAD_FILE is not provided!")
+		fmt.Println("$APPTHWACK_UPLOAD_FILE is not provided!")
 		os.Exit(1)
 	}
 	if uploadSave == "" {
-		errorMessageToOutput("$APPTHWACK_UPLOAD_SAVE is not provided!")
+		fmt.Println("$APPTHWACK_UPLOAD_SAVE is not provided!")
 		os.Exit(1)
 	}
 	if uploadType == "" {
-		errorMessageToOutput("$APPTHWACK_UPLOAD_TYPE is not provided!")
+		fmt.Println("$APPTHWACK_UPLOAD_TYPE is not provided!")
 		os.Exit(1)
 	}
 
 	testUploadName := ""
 	testUploadFile := ""
 	testUploadSave := ""
-	testUploadType = os.Getenv("APPTHWACK_TEST_UPLOAD_TYPE")
+	testUploadType := os.Getenv("APPTHWACK_TEST_UPLOAD_TYPE")
 	if uploadName == "" {
-		errorMessageToOutput("$APPTHWACK_TEST_UPLOAD_TYPE is not provided!")
+		fmt.Println("$APPTHWACK_TEST_UPLOAD_TYPE is not provided!")
 		os.Exit(1)
 	}
 
@@ -363,15 +363,15 @@ func main() {
 		testUploadSave = os.Getenv("APPTHWACK_TEST_UPLOAD_SAVE")
 
 		if uploadName == "" {
-			errorMessageToOutput("$APPTHWACK_TEST_UPLOAD_NAME is not provided!")
+			fmt.Println("$APPTHWACK_TEST_UPLOAD_NAME is not provided!")
 			os.Exit(1)
 		}
 		if uploadName == "" {
-			errorMessageToOutput("$APPTHWACK_TEST_UPLOAD_FILE is not provided!")
+			fmt.Println("$APPTHWACK_TEST_UPLOAD_FILE is not provided!")
 			os.Exit(1)
 		}
 		if uploadName == "" {
-			errorMessageToOutput("$APPTHWACK_TEST_UPLOAD_SAVE is not provided!")
+			fmt.Println("$APPTHWACK_TEST_UPLOAD_SAVE is not provided!")
 			os.Exit(1)
 		}
 	}

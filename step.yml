@@ -2,16 +2,16 @@ name: "Test your app with AppThwack"
 description: |
   This step lets you test your project on AppThwack.
 website: http://www.steplib.com/
-fork_url: https://github.com/steplib/step-template
+fork_url: https://github.com/kokomo88/steps-appthwack
 source:
-  git: https://github.com/steplib/step-template.git
+  git: https://github.com/kokomo88/steps-appthwack
 host_os_tags:
   - "osx-10.9"
   - "osx-10.10"
 project_type_tags: []
 type_tags:
-  - template
-  - sample
+  - appthwack
+  - testing
 is_requires_admin_user: false
 inputs:
   - 
@@ -105,7 +105,7 @@ inputs:
       This field is only required if you didn't choose built-in test type. The path to the test file you'd like to upload
     is_required: true
     is_expand: false
-    value: "optional, default value for the input field"
+    value: ""
     value_options: []
     is_dont_change_value: false
   - 
