@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
+	"mime/multipart"
 	"net/http"
 	"net/url"
-	//"log"
-	"mime/multipart"
 	"os"
 	"strconv"
 	"strings"
@@ -82,12 +82,13 @@ func sendGetRequest(requestURL string, apiKey string) string {
 	resp, err := cli.Do(req)
 	if err != nil {
 		//TODO
-
+		log.Fatal(err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		//TODO
+		log.Fatal(err)
 
 	}
 
@@ -100,20 +101,20 @@ func sendGetRequest(requestURL string, apiKey string) string {
 		fmt.Printf("REQUEST ERROR: %d", resp.StatusCode)
 		switch resp.StatusCode {
 		case 400:
-			fmt.Println(" BAD REQUEST")
+			log.Fatal(" BAD REQUEST")
 		case 401:
-			fmt.Println(" UNAUTHORIZED")
+			log.Fatal(" UNAUTHORIZED")
 		case 402:
-			fmt.Println(" REQUEST FAILED")
+			log.Fatal(" REQUEST FAILED")
 		case 404:
-			fmt.Println(" NOT FOUND")
+			log.Fatal(" NOT FOUND")
 		case 500:
-			fmt.Println(" SERVER ERROR")
+			log.Fatal(" SERVER ERROR")
 		case 501:
-			fmt.Println(" NOT IMPLEMENTED")
+			log.Fatal(" NOT IMPLEMENTED")
 
 		}
-		os.Exit(1)
+
 	}
 	return bodyStr
 }
@@ -125,41 +126,33 @@ func sendPostRequestWithFileUpload(apiKey, requestURL string, params UploadAppPa
 	// Add file
 	f, err := os.Open(params.File)
 	if err != nil {
-		fmt.Println("Failed to open file", params.File, err)
-		os.Exit(1)
+		log.Fatal("Failed to open file", params.File, err)
 	}
 	fw, err := w.CreateFormFile("file", params.File)
 	if err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 	if _, err = io.Copy(fw, f); err != nil {
 		return "", err
 	}
 	// Add the other fields
 	if fw, err = w.CreateFormField("name"); err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 	if _, err = fw.Write([]byte(params.Name)); err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 	if fw, err = w.CreateFormField("type"); err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 	if _, err = fw.Write([]byte(params.Type)); err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 	if fw, err = w.CreateFormField("save"); err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 	if _, err = fw.Write([]byte(params.Save)); err != nil {
-		fmt.Println("Failed to create form", err)
-		os.Exit(1)
+		log.Fatal("Failed to create form", err)
 	}
 
 	// Don't forget to close the multipart writer.
@@ -169,8 +162,7 @@ func sendPostRequestWithFileUpload(apiKey, requestURL string, params UploadAppPa
 	// Now that you have a form, you can submit it to your handler.
 	req, err := http.NewRequest("POST", requestURL, &b)
 	if err != nil {
-		fmt.Println("Failed to create request", err)
-		os.Exit(1)
+		log.Fatal("Failed to create request", err)
 	}
 	//It's needed for http authentication.
 	req.SetBasicAuth(apiKey, "")
@@ -182,13 +174,12 @@ func sendPostRequestWithFileUpload(apiKey, requestURL string, params UploadAppPa
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Printf("Failed to send the request", err)
-		os.Exit(1)
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		//TODO
-
+		log.Fatal(err)
 	}
 	res.Body.Close()
 	bodyStr := string(body)
@@ -200,20 +191,19 @@ func sendPostRequestWithFileUpload(apiKey, requestURL string, params UploadAppPa
 		fmt.Printf("REQUEST ERROR: %d", res.StatusCode)
 		switch res.StatusCode {
 		case 400:
-			fmt.Println(" BAD REQUEST")
+			log.Fatal(" BAD REQUEST")
 		case 401:
-			fmt.Println(" UNAUTHORIZED")
+			log.Fatal(" UNAUTHORIZED")
 		case 402:
-			fmt.Println(" REQUEST FAILED")
+			log.Fatal(" REQUEST FAILED")
 		case 404:
-			fmt.Println(" NOT FOUND")
+			log.Fatal(" NOT FOUND")
 		case 500:
-			fmt.Println(" SERVER ERROR")
+			log.Fatal(" SERVER ERROR")
 		case 501:
-			fmt.Println(" NOT IMPLEMENTED")
+			log.Fatal(" NOT IMPLEMENTED")
 
 		}
-		os.Exit(1)
 	}
 	return bodyStr, err
 }
@@ -258,13 +248,13 @@ func scheduleTest(apiKey string, projectId int, projectName string, fileId int, 
 	cli := &http.Client{}
 	resp, err := cli.Do(req)
 	if err != nil {
-		fmt.Printf("Failed to send the request", err)
-		os.Exit(1)
+		log.Fatal("Failed to send the request", err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		//TODO
+		log.Fatal(err)
 
 	}
 	resp.Body.Close()
@@ -276,20 +266,19 @@ func scheduleTest(apiKey string, projectId int, projectName string, fileId int, 
 		fmt.Printf("REQUEST ERROR: %d", resp.StatusCode)
 		switch resp.StatusCode {
 		case 400:
-			fmt.Println(" BAD REQUEST")
+			log.Fatal(" BAD REQUEST")
 		case 401:
-			fmt.Println(" UNAUTHORIZED")
+			log.Fatal(" UNAUTHORIZED")
 		case 402:
-			fmt.Println(" REQUEST FAILED")
+			log.Fatal(" REQUEST FAILED")
 		case 404:
-			fmt.Println(" NOT FOUND")
+			log.Fatal(" NOT FOUND")
 		case 500:
-			fmt.Println(" SERVER ERROR")
+			log.Fatal(" SERVER ERROR")
 		case 501:
-			fmt.Println(" NOT IMPLEMENTED")
+			log.Fatal(" NOT IMPLEMENTED")
 
 		}
-		os.Exit(1)
 	}
 	return bodyStr, err
 
@@ -312,19 +301,16 @@ func main() {
 
 	apiKey := os.Getenv("APPTHWACK_API_KEY")
 	if apiKey == "" {
-		fmt.Println("$APPTHWACK_API_KEY is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_API_KEY is not provided!")
 	}
 
 	projectName := os.Getenv("APPTHWACK_PROJECT_NAME")
 	devicePoolName := os.Getenv("APPTHWACK_DEVICE_POOL_NAME")
 	if projectName == "" {
-		fmt.Println("$APPTHWACK_PROJECT_NAME is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_PROJECT_NAME is not provided!")
 	}
 	if devicePoolName == "" {
-		fmt.Println("$APPTHWACK_DEVICE_POOL_NAME is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_DEVICE_POOL_NAME is not provided!")
 	}
 
 	uploadName := os.Getenv("APPTHWACK_UPLOAD_NAME")
@@ -332,20 +318,16 @@ func main() {
 	uploadSave := os.Getenv("APPTHWACK_UPLOAD_SAVE")
 	uploadType := os.Getenv("APPTHWACK_UPLOAD_TYPE")
 	if uploadName == "" {
-		fmt.Println("$APPTHWACK_UPLOAD_NAME is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_UPLOAD_NAME is not provided!")
 	}
 	if uploadFile == "" {
-		fmt.Println("$APPTHWACK_UPLOAD_FILE is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_UPLOAD_FILE is not provided!")
 	}
 	if uploadSave == "" {
-		fmt.Println("$APPTHWACK_UPLOAD_SAVE is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_UPLOAD_SAVE is not provided!")
 	}
 	if uploadType == "" {
-		fmt.Println("$APPTHWACK_UPLOAD_TYPE is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_UPLOAD_TYPE is not provided!")
 	}
 
 	testUploadName := ""
@@ -353,8 +335,7 @@ func main() {
 	testUploadSave := ""
 	testUploadType := os.Getenv("APPTHWACK_TEST_UPLOAD_TYPE")
 	if uploadName == "" {
-		fmt.Println("$APPTHWACK_TEST_UPLOAD_TYPE is not provided!")
-		os.Exit(1)
+		log.Fatal("$APPTHWACK_TEST_UPLOAD_TYPE is not provided!")
 	}
 
 	if testUploadType != "built-in" {
@@ -363,16 +344,16 @@ func main() {
 		testUploadSave = os.Getenv("APPTHWACK_TEST_UPLOAD_SAVE")
 
 		if uploadName == "" {
-			fmt.Println("$APPTHWACK_TEST_UPLOAD_NAME is not provided!")
-			os.Exit(1)
+			log.Fatal("$APPTHWACK_TEST_UPLOAD_NAME is not provided!")
+
 		}
 		if uploadName == "" {
-			fmt.Println("$APPTHWACK_TEST_UPLOAD_FILE is not provided!")
-			os.Exit(1)
+			log.Fatal("$APPTHWACK_TEST_UPLOAD_FILE is not provided!")
+
 		}
 		if uploadName == "" {
-			fmt.Println("$APPTHWACK_TEST_UPLOAD_SAVE is not provided!")
-			os.Exit(1)
+			log.Fatal("$APPTHWACK_TEST_UPLOAD_SAVE is not provided!")
+
 		}
 	}
 
@@ -400,20 +381,19 @@ func main() {
 	projectId := (searchProjectIdByName(resProjList, projectName))
 	if projectId == -1 {
 		//TODO
-		fmt.Println("Invalid project name:", projectName)
-		os.Exit(1)
+		log.Fatal("Invalid project name:", projectName)
 	}
 	poolId := (searchPoolIdByName(resDev, devicePoolName))
 	if poolId == -1 {
 		//TODO
-		fmt.Println("Invalid device pool name:", devicePoolName)
-		os.Exit(1)
+		log.Fatal("Invalid device pool name:", devicePoolName)
 	}
 
 	//uploading app
 	fileUpload, err := createUploadAppPayloadParam(uploadName, uploadFile, uploadSave, uploadType)
 	if err != nil {
 		//TODO
+		log.Fatal(err)
 	}
 	stringifiedJSON, err = sendPostRequestWithFileUpload(apiKey, urlUpload, fileUpload)
 
@@ -427,6 +407,7 @@ func main() {
 		fileUpload, err := createUploadAppPayloadParam(testUploadName, testUploadFile, testUploadSave, testUploadType)
 		if err != nil {
 			//TODO
+			log.Fatal(err)
 		}
 		stringifiedJSON, err = sendPostRequestWithFileUpload(apiKey, urlUpload, fileUpload)
 
@@ -435,9 +416,7 @@ func main() {
 
 	//schedule Test
 
-	fmt.Printf("%#v\n", uploadedFiles)
 	stringifiedJSON, err = scheduleTest(apiKey, projectId, projectName, uploadedFiles.Id, poolId, urlSchedule, testUploadType, uploadedTestFiles.Id)
-	fmt.Println(stringifiedJSON)
 
 	var runIds runId
 
@@ -446,13 +425,19 @@ func main() {
 	done := make(chan string, 1)
 	ticker := time.NewTicker(time.Millisecond * 2000).C
 	fmt.Printf("Waiting for test results")
+	counter := 0
 	for {
 		select {
 		case <-ticker:
 			go retrieveResults(apiKey, projectId, runIds.Id, done)
 			fmt.Printf(".")
+			if counter == 9 {
+				counter = 0
+				fmt.Printf("\n")
+
+			}
 		case msg := <-done:
-			fmt.Println("status:", msg)
+			fmt.Println("\n", "status:", msg)
 			return
 		}
 	}
