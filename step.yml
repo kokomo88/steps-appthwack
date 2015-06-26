@@ -1,0 +1,124 @@
+name: "Test your app with AppThwack"
+description: |
+  This step lets you test your project on AppThwack.
+website: http://www.steplib.com/
+fork_url: https://github.com/steplib/step-template
+source:
+  git: https://github.com/steplib/step-template.git
+host_os_tags:
+  - "osx-10.9"
+  - "osx-10.10"
+project_type_tags: []
+type_tags:
+  - template
+  - sample
+is_requires_admin_user: false
+inputs:
+  - 
+    mapped_to: APPTHWACK_API_KEY
+    title: "Api key"
+    description: |
+      Your Appthwack api key. You can find it on your AppThwack user profile.
+    is_required: true
+    is_expand: false
+    value: ""
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_PROJECT_NAME
+    title: "Project name"
+    description: |
+      The name of your AppThwack project.
+    is_required: true
+    is_expand: false
+    value: ""
+  - 
+    mapped_to: APPTHWACK_UPLOAD_NAME
+    title: "App Upload name"
+    description: |
+      The name of the file once uploaded to AppThwack
+    is_required: true
+    is_expand: false
+  - 
+    mapped_to: APPTHWACK_UPLOAD_FILE
+    title: "File path"
+    description: |
+      The path to the app you'd like to upload
+    is_required: true
+    is_expand: true
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_UPLOAD_SAVE
+    title: "Save"
+    description: |
+      The value true will indicate that the file should be stored on AppThwack servers for 24 hours or until you explicitly delete it, whichever comes first. The default value is false, indicating that your file should be deleted after its use in a test run.
+    is_required: true
+    is_expand: false
+    value: "false"
+    value_options:
+      - "false"
+      - "true"
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_UPLOAD_TYPE
+    title: "Project type"
+    description: |
+      The type of your app.
+    is_required: true
+    is_expand: false
+    value: iosapp
+    value_options: 
+      - iosapp
+      - androidapp
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_TEST_UPLOAD_TYPE
+    title: "Test type"
+    description: |
+      The type of your test.
+    is_required: true
+    is_expand: false
+    value: "built-in"
+    value_options: 
+      - "built-in"
+      - calabash
+      - junit
+      - ocunit
+      - moneytalk
+      - uiautomation
+      - uiautomator
+      - xctest
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_TEST_UPLOAD_NAME
+    title: "Test file name [not built-in test]"
+    description: |
+      This field is only required if you didn't choose built-in test type. The name of the test file once uploaded to AppThwack
+    is_required: true
+    is_expand: false
+    value: ""
+    value_options: []
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_TEST_UPLOAD_FILE
+    title: "Upload test file name [not built-in test]"
+    description: |
+      This field is only required if you didn't choose built-in test type. The path to the test file you'd like to upload
+    is_required: true
+    is_expand: false
+    value: "optional, default value for the input field"
+    value_options: []
+    is_dont_change_value: false
+  - 
+    mapped_to: APPTHWACK_TEST_UPLOAD_SAVE
+    title: "Test save [not built-in test]"
+    description: |
+      This field is only required if you didn't choose built-in test type. The value true will indicate that the test file should be stored on AppThwack servers for 24 hours or until you explicitly delete it, whichever comes first. The default value is false, indicating that your file should be deleted after its use in a test run.
+    is_required: true
+    is_expand: false
+    value: ""
+    value_options: 
+      - "false"
+      - "true"
+    is_dont_change_value: false
+
+
